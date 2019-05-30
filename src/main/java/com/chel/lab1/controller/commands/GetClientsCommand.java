@@ -15,8 +15,7 @@ import java.util.ArrayList;
 public class GetClientsCommand implements Command {
 
     @Override
-     public ArrayList<Client> execute(HttpServletRequest req, HttpServletResponse res) throws SQLException, ClassNotFoundException  {
-
-        return new ClientModel().getAllClients();
+     public Iterable<Client> execute(HttpServletRequest req, HttpServletResponse res) {
+        return ClientModel.getInstance().getAllClients();
     }
 }

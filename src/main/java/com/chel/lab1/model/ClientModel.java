@@ -12,9 +12,17 @@ import java.util.Map;
 
 
 public class ClientModel {
-    private static ClientDao clientDao = new ClientDao();
+    private static ClientModel instance = ClientModel.getInstance();
 
-    public ArrayList<Client> getAllClients() {
+    private ClientModel() { };
+
+    public static ClientModel getInstance() {
+        return instance;
+    }
+
+    private static ClientDao clientDao = ClientDao.getInstance();
+
+    public Iterable<Client> getAllClients() {
         return clientDao.getAll();
     }
 

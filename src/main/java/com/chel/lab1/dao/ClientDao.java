@@ -2,21 +2,35 @@ package com.chel.lab1.dao;
 
 import com.chel.lab1.entities.Client;
 import com.chel.lab1.entities.Participant;
+import com.chel.lab1.model.BetModel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class ClientDao implements Dao<Client> {
+    private static ClientDao instance = new ClientDao();
+
+    private ClientDao() { };
+
+    public static ClientDao getInstance() {
+        return instance;
+    }
+
+    private static final Logger logger = Logger.getLogger(BetDao.class.getName());
+
+
     private Connector connector = new Connector();
 
     @Override
     public Client get(int id) {
         String query = "SELECT * FROM clients WHERE id='" + id + "'";
-        connector.createNewConnection();
         try {
+            connector.createNewConnection();
+
             Statement statement = connector.getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             resultSet.next();
@@ -24,28 +38,27 @@ public class ClientDao implements Dao<Client> {
                     resultSet.getDouble("account"), resultSet.getString("name"));
             connector.closeConnection();
             return client;
-        } catch (SQLException ex)
-        {
-            ex.printStackTrace();
+        } catch (SQLException | ClassNotFoundException ex) {
+            logger.info(ex.getLocalizedMessage());
         }
         return null;
     }
 
     @Override
-    public ArrayList<Client> getAll() {
+    public Iterable<Client> getAll() {
         String query = "SELECT * FROM clients";
         ArrayList<Client> clients = new ArrayList<>();
-        connector.createNewConnection();
         try {
+            connector.createNewConnection();
+
             Statement statement = connector.getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             while(resultSet.next())
                 clients.add(new Client(resultSet.getInt("id"), resultSet.getString("login"), resultSet.getString("pass"),
                         resultSet.getDouble("account"), resultSet.getString("name")));
             connector.closeConnection();
-        } catch (SQLException ex)
-        {
-            ex.printStackTrace();
+        } catch (SQLException | ClassNotFoundException ex) {
+            logger.info(ex.getLocalizedMessage());
         }
         return clients;
     }
@@ -55,13 +68,14 @@ public class ClientDao implements Dao<Client> {
     @Override
     public void delete(int id) {
         String query = "DELETE FROM clients WHERE id='" + id + "'";
-        connector.createNewConnection();
         try {
+            connector.createNewConnection();
+
             Statement statement = connector.getConnection().createStatement();
             statement.executeUpdate(query);
             connector.closeConnection();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (SQLException | ClassNotFoundException ex) {
+            logger.info(ex.getLocalizedMessage());
         }
     }
 
@@ -80,16 +94,15 @@ public class ClientDao implements Dao<Client> {
             query += key + "='"+ params.get(key) + "', ";
         }
         query = query.substring(0, query.length()-2);
-
-
         query += " WHERE id='" + id + "'";
-        connector.createNewConnection();
         try {
+            connector.createNewConnection();
+
             Statement statement = connector.getConnection().createStatement();
             statement.executeUpdate(query);
             connector.closeConnection();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (SQLException | ClassNotFoundException ex) {
+            logger.info(ex.getLocalizedMessage());
         }
 
     }
@@ -97,8 +110,9 @@ public class ClientDao implements Dao<Client> {
 
     public Client findByLogin(String login) {
         String query = "SELECT * FROM clients WHERE login='" + login + "'";
-        connector.createNewConnection();
         try {
+            connector.createNewConnection();
+
             Statement statement = connector.getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             resultSet.next();
@@ -106,13 +120,10 @@ public class ClientDao implements Dao<Client> {
                     resultSet.getDouble("account"), resultSet.getString("name"));
             connector.closeConnection();
             return client;
-        } catch (SQLException ex)
-        {
-            ex.printStackTrace();
+        } catch (SQLException | ClassNotFoundException ex) {
+            logger.info(ex.getLocalizedMessage());
         }
         return null;
     }
-
-
 
 }

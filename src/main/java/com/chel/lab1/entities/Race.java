@@ -12,11 +12,6 @@ public class Race {
     private String winner;
 
     public Race() {
-        this.id = 0;
-        this.dateTime = "1970-01-01 00:00";
-        this.place = "null";
-        this.distance = 0;
-        this.winner = "null";
     }
 
     public Race(int id, String dateTime, String place, int distance, String winner) {

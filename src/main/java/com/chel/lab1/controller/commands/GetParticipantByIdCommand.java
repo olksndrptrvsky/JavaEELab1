@@ -14,10 +14,10 @@ public class GetParticipantByIdCommand implements Command {
 
 
     @Override
-    public Participant execute(HttpServletRequest req, HttpServletResponse res) throws SQLException, ClassNotFoundException  {
+    public Participant execute(HttpServletRequest req, HttpServletResponse res) {
         String[] values = req.getRequestURI().split("[/]");
         int id = Integer.parseInt(values[3]);
 
-        return new ParticipantModel().getParticipantById(id);
+        return ParticipantModel.getInstance().getParticipantById(id);
     }
 }

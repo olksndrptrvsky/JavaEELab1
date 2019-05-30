@@ -17,11 +17,10 @@ public class GetRaceByIdCommand implements Command {
 
 
     @Override
-    public Race execute(HttpServletRequest req, HttpServletResponse res) throws SQLException, ClassNotFoundException  {
+    public Race execute(HttpServletRequest req, HttpServletResponse res) {
         String[] values = req.getRequestURI().split("[/]");
         int id = Integer.parseInt(values[3]);
-        Race race = new RaceModel().getRaceById(id);
-
+        Race race = RaceModel.getInstance().getRaceById(id);
         if(race!=null)race.formatDate();
         return race;
     }

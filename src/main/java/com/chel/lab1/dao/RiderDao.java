@@ -8,15 +8,28 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class RiderDao implements Dao<Rider> {
+    private static RiderDao instance = new RiderDao();
+
+    private RiderDao() { };
+
+    public static RiderDao getInstance() {
+        return instance;
+    }
+
+    private static final Logger logger = Logger.getLogger(BetDao.class.getName());
+
+
     private Connector connector = new Connector();
 
     @Override
     public Rider get(int id) {
         String query = "SELECT * FROM riders WHERE id=" + id;
-        connector.createNewConnection();
         try {
+            connector.createNewConnection();
+
             Statement statement = connector.getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             resultSet.next();
@@ -24,8 +37,7 @@ public class RiderDao implements Dao<Rider> {
                     resultSet.getString("horse_breed"), resultSet.getInt("wins_count"));
             connector.closeConnection();
             return rider;
-        } catch (SQLException ex)
-        {
+        } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }
         return null;
@@ -35,16 +47,16 @@ public class RiderDao implements Dao<Rider> {
     public ArrayList<Rider> getAll() {
         String query = "SELECT * FROM riders";
         ArrayList<Rider> riders = new ArrayList<>();
-        connector.createNewConnection();
         try {
+            connector.createNewConnection();
+
             Statement statement = connector.getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             while(resultSet.next())
                 riders.add(new Rider(resultSet.getInt("id"), resultSet.getString("full_name"),
                         resultSet.getString("horse_breed"), resultSet.getInt("wins_count")));
             connector.closeConnection();
-        } catch (SQLException ex)
-        {
+        } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }
         return riders;
@@ -53,16 +65,16 @@ public class RiderDao implements Dao<Rider> {
     public ArrayList<Rider> getAllForRace(int raceId) {
         String query = "SELECT r.* FROM participants as p JOIN riders as r ON p.rider_id=r.id WHERE race_id = '"+ raceId + "'";
         ArrayList<Rider> riders = new ArrayList<>();
-        connector.createNewConnection();
         try {
+            connector.createNewConnection();
+
             Statement statement = connector.getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             while(resultSet.next())
                 riders.add(new Rider(resultSet.getInt("id"), resultSet.getString("full_name"),
                         resultSet.getString("horse_breed"), resultSet.getInt("wins_count")));
             connector.closeConnection();
-        } catch (SQLException ex)
-        {
+        } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }
         return riders;
@@ -71,12 +83,13 @@ public class RiderDao implements Dao<Rider> {
     @Override
     public void delete(int id) {
         String query = "DELETE FROM riders WHERE id=" + id;
-        connector.createNewConnection();
         try {
+            connector.createNewConnection();
+
             Statement statement = connector.getConnection().createStatement();
             statement.executeUpdate(query);
             connector.closeConnection();
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }
     }

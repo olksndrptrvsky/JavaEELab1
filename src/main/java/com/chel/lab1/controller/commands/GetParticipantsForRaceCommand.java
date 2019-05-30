@@ -10,20 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Connection;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Map;
 
 public class GetParticipantsForRaceCommand implements Command {
 
     @Override
-    public ArrayList<Participant> execute(HttpServletRequest req, HttpServletResponse res) throws SQLException, ClassNotFoundException  {
+    public Iterable<Participant> execute(HttpServletRequest req, HttpServletResponse res) {
         String[] values = req.getRequestURI().split("[/]");
         int id = Integer.parseInt(values[3]);
-
-        ArrayList<Participant> participants = new ParticipantModel().getAllParticipantsForRace(id);
-
-        return participants;
+        return ParticipantModel.getInstance().getAllParticipantsForRace(id);
     }
 }

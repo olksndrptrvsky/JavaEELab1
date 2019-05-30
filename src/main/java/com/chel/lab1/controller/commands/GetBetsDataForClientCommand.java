@@ -16,11 +16,9 @@ public class GetBetsDataForClientCommand implements Command {
 
 
     @Override
-    public ArrayList<BetData> execute(HttpServletRequest req, HttpServletResponse res) throws SQLException, ClassNotFoundException  {
+    public Iterable<BetData> execute(HttpServletRequest req, HttpServletResponse res) {
         String[] values = req.getRequestURI().split("[/]");
-
-//        System.out.println("we are here");
-        return new BetModel().getBetsDataForClient(values[3]);
+        return BetModel.getInstance().getBetsDataForClient(values[3]);
 
     }
 }

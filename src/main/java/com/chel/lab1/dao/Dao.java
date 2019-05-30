@@ -8,7 +8,7 @@ public interface Dao<T> {
 
     T get(int id);
 
-    ArrayList<T> getAll();
+    Iterable<T> getAll();
 
     void save(T t);
 

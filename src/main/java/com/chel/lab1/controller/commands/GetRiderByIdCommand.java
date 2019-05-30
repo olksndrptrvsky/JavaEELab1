@@ -14,9 +14,9 @@ public class GetRiderByIdCommand implements Command {
 
 
     @Override
-    public Rider execute(HttpServletRequest req, HttpServletResponse res) throws SQLException, ClassNotFoundException  {
+    public Rider execute(HttpServletRequest req, HttpServletResponse res) {
         String[] values = req.getRequestURI().split("[/]");
         int id = Integer.parseInt(values[3]);
-        return new RiderModel().getRiderById(id);
+        return RiderModel.getInstance().getRiderById(id);
     }
 }

@@ -10,7 +10,16 @@ import java.util.ArrayList;
 
 
 public class RiderModel {
-    private static RiderDao riderDao = new RiderDao();
+    private static RiderModel instance = RiderModel.getInstance();
+
+    private RiderModel() { };
+
+    public static RiderModel getInstance() {
+        return instance;
+    }
+
+
+    private static RiderDao riderDao = RiderDao.getInstance();
 
     public ArrayList<Rider> getAllRaces() {
         return riderDao.getAll();

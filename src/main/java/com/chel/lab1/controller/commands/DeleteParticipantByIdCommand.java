@@ -1,6 +1,7 @@
 package com.chel.lab1.controller.commands;
 
 
+import com.chel.lab1.entities.Participant;
 import com.chel.lab1.model.ParticipantModel;
 import com.google.gson.Gson;
 
@@ -14,10 +15,10 @@ public class DeleteParticipantByIdCommand implements Command {
 
 
     @Override
-    public Integer execute(HttpServletRequest req, HttpServletResponse res) throws SQLException, ClassNotFoundException  {
+    public Integer execute(HttpServletRequest req, HttpServletResponse res) {
         String[] values = req.getRequestURI().split("[/]");
         int id = Integer.parseInt(values[3]);
-        new ParticipantModel().deleteParticipantById(id);
+        ParticipantModel.getInstance().deleteParticipantById(id);
         return 0;
     }
 }

@@ -14,8 +14,8 @@ import java.util.Map;
 public class GetRacesCommand implements Command {
 
     @Override
-    public ArrayList<Race> execute(HttpServletRequest req, HttpServletResponse res) throws SQLException, ClassNotFoundException {
-        ArrayList<Race> races = new RaceModel().getAllRaces();
+    public Iterable<Race> execute(HttpServletRequest req, HttpServletResponse res) {
+        Iterable<Race> races = RaceModel.getInstance().getAllRaces();
         for(Race race: races)
         {
             race.formatDate();

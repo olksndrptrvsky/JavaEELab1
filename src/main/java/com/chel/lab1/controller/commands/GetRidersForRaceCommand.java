@@ -18,10 +18,10 @@ import java.util.Map;
 public class GetRidersForRaceCommand implements Command {
 
     @Override
-    public ArrayList<Rider> execute(HttpServletRequest req, HttpServletResponse res) throws SQLException, ClassNotFoundException  {
+    public ArrayList<Rider> execute(HttpServletRequest req, HttpServletResponse res) {
         String[] values = req.getRequestURI().split("[/]");
         int id = Integer.parseInt(values[3]);
-        return new RiderModel().getRidersForRace(id);
+        return RiderModel.getInstance().getRidersForRace(id);
 
     }
 }

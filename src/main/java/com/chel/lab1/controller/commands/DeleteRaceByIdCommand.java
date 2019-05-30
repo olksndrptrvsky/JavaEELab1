@@ -14,10 +14,10 @@ public class DeleteRaceByIdCommand implements Command {
 
 
     @Override
-    public Integer execute(HttpServletRequest req, HttpServletResponse res) throws SQLException {
+    public Integer execute(HttpServletRequest req, HttpServletResponse res) {
         String[] values = req.getRequestURI().split("[/]");
         int id = Integer.parseInt(values[3]);
-        new RaceModel().deleteRaceById(id);
+        RaceModel.getInstance().deleteRaceById(id);
         return 0;
     }
 }

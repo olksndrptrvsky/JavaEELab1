@@ -8,9 +8,19 @@ import java.util.ArrayList;
 
 
 public class RaceModel{
-    private static RaceDao raceDao = new RaceDao();
 
-    public ArrayList<Race> getAllRaces() {
+    private static RaceModel instance = RaceModel.getInstance();
+
+    private RaceModel() { };
+
+    public static RaceModel getInstance() {
+        return instance;
+    }
+
+
+    private static RaceDao raceDao = RaceDao.getInstance();
+
+    public Iterable<Race> getAllRaces() {
         return raceDao.getAll();
     }
 

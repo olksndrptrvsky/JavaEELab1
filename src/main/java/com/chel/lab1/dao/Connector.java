@@ -3,27 +3,26 @@ package com.chel.lab1.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 public class Connector {
-    protected Connection connection;
 
-    public void createNewConnection()
+    private Connection connection;
+
+    public void createNewConnection() throws ClassNotFoundException, SQLException
     {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            // Setup the connection with the DB
-            final String MYSQLSERVER = "localhost",
-                    DATABASE = "horserace",
-                    USER = "connector",
-                    PASSWORD = "1111";
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        // Setup the connection with the DB
+        final String MYSQLSERVER = "localhost",
+                DATABASE = "horserace",
+                USER = "connector",
+                PASSWORD = "1111";
 
 
-            connection = DriverManager
-                    .getConnection("jdbc:mysql://"+MYSQLSERVER+"/"+DATABASE+"?"
-                            + "user="+USER+"&password="+PASSWORD+"&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        connection = DriverManager
+                .getConnection("jdbc:mysql://"+MYSQLSERVER+"/"+DATABASE+"?"
+                        + "user="+USER+"&password="+PASSWORD+"&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
+
     }
 
     public Connection getConnection() {
